@@ -12,7 +12,6 @@ function openCageUrl(placeName) {
 async function getLocationData(city){
     console.log(`Searching for location: ${city}`)
     var {data} = await axios.get(openCageUrl(city))
-    console.log(`Data is: ${data.results}`)
     return data.results[0]
 }
 

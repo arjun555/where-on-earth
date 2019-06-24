@@ -17,9 +17,8 @@ app.get('/api/getLocation', (req,res) => {
     let city = "london"
     getLocationData(city)
         .then(
-            (result) => {
-                console.log(result)
-                res.json(result)
+            (data) => {
+                res.json(data)
             }
         )
 });

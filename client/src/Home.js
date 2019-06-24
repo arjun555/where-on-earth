@@ -6,7 +6,7 @@ export default class Home extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            location: []
+            list: []
             }
     }
 
@@ -18,14 +18,23 @@ export default class Home extends React.Component{
     // Retrieves the list of items from the Express app
     getLocation = () => {
         fetch('/api/getLocation')
+        // .then(res => {
+            
+        //     console.log(res)
+        // })
+        // .then(list => {
+        //     // this.setState({locationData: data})
+        //     // console.log(this.state)
+        //     console.log(list)
+        // })
         .then(res => res.json())
-        .then(location => this.setState({ location }))
+        .then(data => console.log(data))
     }
 
     render() {
         return (
           <section>
-            <h1>Home</h1>
+            <h1>he</h1>
           </section>
         );
     }
