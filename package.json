@@ -1,0 +1,29 @@
+{
+  "name": "earth-travel-project",
+  "version": "1.0.0",
+  "description": "[link to website on surge](https://green-invention.surge.sh)",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arjun555/earth-travel-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arjun555/earth-travel-project/issues"
+  },
+  "homepage": "https://github.com/arjun555/earth-travel-project#readme"
+}
