@@ -34,13 +34,10 @@ app.get('/api/getFlight', (req,res) => {
 
 // An api endpoint that returns a short list of items
 app.get('/api/getPlacesID', (req,res) => {
-    // let city = req.query.location
-    getPlacesID()
+    // let city = req.query.location.name
+    getPlacesID('london')
         .then((data) => {res.json(data)})
 });
-
-
-
 
 
 //// Plan of attack

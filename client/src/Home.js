@@ -1,5 +1,6 @@
 import React from 'react'
 import Earth from './Earth'
+
 const axios = require('axios')
 
 export default class Home extends React.Component{
@@ -39,6 +40,8 @@ export default class Home extends React.Component{
             })
         })
     }
+
+    
 
     handleSubmit = (event) => {
         if(this.searchValue && this.searchPriceLimit > 0){
