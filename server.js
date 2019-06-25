@@ -16,9 +16,5 @@ app.use(express.static('client/build'));
 app.get('/api/getLocation', (req,res) => {
     let city = "london"
     getLocationData(city)
-        .then(
-            (data) => {
-                res.json(data)
-            }
-        )
+        .then((data) => {res.json(data)})
 });

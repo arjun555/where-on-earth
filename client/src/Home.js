@@ -1,4 +1,5 @@
 import React from 'react'
+const axios = require('axios')
 
 export default class Home extends React.Component{
 
@@ -15,10 +16,9 @@ export default class Home extends React.Component{
         this.getLocation();
     }
 
-    // Retrieves the list of items from the Express app
+    // // Retrieves the list of items from the Express app
     getLocation = () => {
-        fetch('/api/getLocation')
-        .then(res => res.json())
+        axios.get('/api/getLocation')
         .then(data => console.log(data))
     }
 
