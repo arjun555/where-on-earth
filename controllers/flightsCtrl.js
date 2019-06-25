@@ -9,9 +9,17 @@ function browseQuotesUrl() {
 
 }
 
-// Returns Location Data for city
-async function getFlightData(city){
-    console.log(`Starting Search`)
+// API URL Builder
+function listPlacesUrl() {
+    let baseUrl = `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/UK/GBP/en-GB/?query=Melbourne`
+    // return `${baseUrl}/AU/AUD/en-US/AKL-sky/MEL-sky/2019-09-01?inboundpartialdate=2019-12-12`
+    return baseUrl
+}
+
+
+// Returns Flight Data
+async function getFlightData(){
+    console.log(`Starting Search for Flight Data`)
     var {data} = await axios.get(browseQuotesUrl(),{
         headers : {
             "X-RapidAPI-Host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
@@ -21,6 +29,19 @@ async function getFlightData(city){
     return data
 }
 
+// Returns Location Data for city
+async function getPlacesID(){
+    console.log(`Starting Search for Places ID`)
+    var {data} = await axios.get(listPlacesUrl(),{
+        headers : {
+            "X-RapidAPI-Host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+            "X-RapidAPI-Key": `${process.env.SKYSCANNER_API_KEY}`
+          }
+    })
+    return data
+}
+
 module.exports = {
-    "getFlightData": getFlightData
+    "getFlightData": getFlightData,
+    "getPlacesID": getPlacesID
 }
