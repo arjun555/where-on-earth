@@ -24,17 +24,12 @@ export default class Earth extends React.Component {
     }
 
     createScene = (props) => {
-        // let location = {
-        //     lat: 51.507222,
-        //     lon: -0.1275,
-        //     name: 'London'
-        // }
-        console.log(this.props)
+        // console.log(this.props)
         this.rendererInit();
         this.renderSphere();
         this.camera.position.z = 5;
         this.animate();
-        this.addMarker(this.props.location.origin.geometry.lat, this.props.location.origin.geometry.lng);
+        this.addMarker(this.props.location.geometry.lat, this.props.location.geometry.lng);
         this.axis();
         this.scene.background = new THREE.Color( 'mistyrose' );
     }

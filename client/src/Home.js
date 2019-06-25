@@ -24,6 +24,8 @@ export default class Home extends React.Component{
                     name: 'London'
                 }
             }
+        
+        this.searchValue = ''
     }
 
     // Fetch the list on first mount
@@ -34,13 +36,13 @@ export default class Home extends React.Component{
     // // Retrieves the list of items from the Express app
     getLocation = () => {
         axios.get('/api/getLocation', {params: {
-            location: this.state.origin.name
+            location: this.searchValue
           }})
         .then(res => {
             this.setState({
                 showEarth: true,
                 origin: {
-                    name: this.state.origin.name,
+                    name: this.searchValue,
                     geometry: res.data.geometry
                 }
             })
@@ -53,11 +55,12 @@ export default class Home extends React.Component{
 
     handleOriginChange = (event) => {
         let city = event.target.value
-        this.setState({
-            origin: {
-                name: city
-            }
-        })
+        // this.setState({
+        //     origin: {
+        //         name: city
+        //     }
+        // })
+        this.searchValue = city
     }
 
     render() {
@@ -66,14 +69,14 @@ export default class Home extends React.Component{
 
         return (
           <section>
-            <h1>he</h1>
             <input onChange={this.handleOriginChange}
                 type="text" 
-                value={origin.name || ''}
+                // value={this.searchValue || ''}
                 placeholder="Enter Origin"></input>
             <button onClick={this.handleSubmit}>Submit</button>
+            
             {(this.state.showEarth)?
-                <Earth location={this.state}></Earth> :
+                <Earth location={origin}></Earth> :
                 null
             }
           </section>
