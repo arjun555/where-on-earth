@@ -3,9 +3,9 @@ const axios = require('axios')
 dotenv.config()
 
 // API URL Builder
-function browseQuotesUrl() {
+function browseQuotesUrl(originID, destinationID) {
     let baseUrl = `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0`
-    return `${baseUrl}/AU/AUD/en-US/AKL-sky/MEL-sky/2019-09-01?inboundpartialdate=2019-12-12`
+    return `${baseUrl}/AU/AUD/en-US/${originID}/${destinationID}/2019-09-01?inboundpartialdate=2019-12-01`
 
 }
 
@@ -17,9 +17,9 @@ function listPlacesUrl(city) {
 
 
 // Returns Flight Data
-async function getFlightData(){
+async function getFlightData(originID, destinationID){
     console.log(`Starting Search for Flight Data`)
-    var {data} = await axios.get(browseQuotesUrl(),{
+    var {data} = await axios.get(browseQuotesUrl(originID, destinationID),{
         headers : {
             "X-RapidAPI-Host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
             "X-RapidAPI-Key": `${process.env.SKYSCANNER_API_KEY}`
@@ -37,7 +37,8 @@ async function getPlacesID(city){
             "X-RapidAPI-Key": `${process.env.SKYSCANNER_API_KEY}`
           }
     })
-    return data
+    // example data { PlaceId: 'MELA-sky', PlaceName: 'Melbourne', CountryId: 'AU-sky', RegionId: '', CityId: 'MELA-sky', CountryName: 'Australia' }
+    return data.Places[0]
 }
 
 module.exports = {
