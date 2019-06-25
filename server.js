@@ -14,7 +14,7 @@ app.use(express.static('client/build'));
 
 // An api endpoint that returns a short list of items
 app.get('/api/getLocation', (req,res) => {
-    let city = "london"
+    let city = req.query.location
     getLocationData(city)
         .then((data) => {res.json(data)})
 });
