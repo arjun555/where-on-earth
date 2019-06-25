@@ -29,8 +29,8 @@ export default class Home extends React.Component{
         // this.getLocation();
     }
 
-    // // Retrieves the list of items from the Express app
-    getLocation = () => {
+    // Retrieves the location data from the Express app
+    getOriginLocation = () => {
         axios.get('/api/getLocation', {params: {
             location: this.searchValue
           }})
@@ -46,7 +46,7 @@ export default class Home extends React.Component{
     }
 
     handleSubmit = (event) => {
-        this.getLocation()
+        this.getOriginLocation()
     }
 
     handleOriginChange = (event) => {
