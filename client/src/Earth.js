@@ -29,7 +29,16 @@ export default class Earth extends React.Component {
         this.renderSphere();
         this.camera.position.z = 5;
         this.animate();
-        this.addMarker(this.props.location.geometry.lat, this.props.location.geometry.lng);
+        if(this.props.origin.name){
+            this.addMarker(this.props.origin.geometry.lat, this.props.origin.geometry.lng);
+        }
+
+        if(this.props.destinations.length > 0){
+            this.props.destinations.forEach((city) => {
+                this.addMarker(city.geometry.lat, city.geometry.lng);
+            })
+        }
+
         this.axis();
         this.scene.background = new THREE.Color( 'mistyrose' );
     }
@@ -39,7 +48,6 @@ export default class Earth extends React.Component {
         this.controls.autoRotateSpeed = -1.0;
         this.controls.enablePan = true;
         requestAnimationFrame( this.animate );
-        
         this.controls.update();
         this.renderer.render( this.scene, this.camera );
     }

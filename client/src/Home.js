@@ -8,21 +8,17 @@ export default class Home extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            showEarth: false,
             origin: {
                 geometry:{
                     lat: 0,
                     lng: 0
                 },
-                name: 'London'
+                name: ''
             },
-            destinations: {
-                    geometry:{
-                        lat: 0,
-                        lng: 0
-                    },
-                    name: 'London'
-                }
+            destinations: [
+                    { geometry:{lat: -37.814, lng: 144.96332}, name: 'melbourne'},
+                    { geometry:{lat: -36.848461, lng: 174.763336}, name: 'auckland'}
+                ]
             }
         
         this.searchValue = ''
@@ -55,30 +51,21 @@ export default class Home extends React.Component{
 
     handleOriginChange = (event) => {
         let city = event.target.value
-        // this.setState({
-        //     origin: {
-        //         name: city
-        //     }
-        // })
         this.searchValue = city
     }
 
     render() {
 
         let origin = this.state.origin
+        let destinations = this.state.destinations
 
         return (
           <section>
             <input onChange={this.handleOriginChange}
                 type="text" 
-                // value={this.searchValue || ''}
                 placeholder="Enter Origin"></input>
             <button onClick={this.handleSubmit}>Submit</button>
-            
-            {(this.state.showEarth)?
-                <Earth location={origin}></Earth> :
-                null
-            }
+            <Earth origin={origin} destinations={destinations}></Earth>
           </section>
         );
     }
