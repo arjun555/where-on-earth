@@ -50,7 +50,7 @@ app.get('/api/destinations', (req, res) => {
             // res.json(data)
             getFlightData(data.PlaceId, 'anywhere')
             .then((flightData) => {
-                console.log(flightData)
+                // console.log(flightData)
                 // Get array of Flight Data that is within the price limits
                 getQuotesWithinLimit(flightData.Quotes, priceLimit)
                 res.json(processQuotes(getQuotesWithinLimit(flightData.Quotes, priceLimit), flightData.Places))
@@ -58,6 +58,7 @@ app.get('/api/destinations', (req, res) => {
         })
 })
 
+// Applies the priceLimit to filter through the quote data returned from the API
 function getQuotesWithinLimit(quoteData, priceLimit){
     let quotesWithinLimit = []
     quoteData.forEach((quote) => {
@@ -67,10 +68,11 @@ function getQuotesWithinLimit(quoteData, priceLimit){
         }
     })
     console.log(`Here are the Quotes that are less than ${priceLimit}`)
-    console.log(quotesWithinLimit)
+    // console.log(quotesWithinLimit)
     return quotesWithinLimit;
 }
 
+// Takes an array of quotes and converts the DestinationID's (skyscanner's assignments) and returns an array with the Destinations as strings and flight price
 function processQuotes(quotes, placeIds){
     let arr = []
     quotes.forEach((quote) => {
@@ -103,7 +105,7 @@ function processQuotes(quotes, placeIds){
 // sort through the data until you get to a price limit (Y)
 //  ||
 //  ||
-// use the response 'PlaceName' to get the location geometry data
+// use the response 'PlaceName' to get the location geometry data 
 //  ||
 //  ||
 // plot onto sphere

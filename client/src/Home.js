@@ -12,12 +12,13 @@ export default class Home extends React.Component{
             origin: {
                 geometry:{ lat: 0, lng: 0 }, name: ''},
             destinations: [
-                    { geometry:{lat: 0, lng: 0}, name: ''},
-                    { geometry:{lat: 0, lng: 0}, name: ''}
+                    { geometry:{lat: 0, lng: 0}, name: '', price: 0},
+                    { geometry:{lat: 0, lng: 0}, name: '', price: 0}
                 ]
             }
         this.searchValue = ''
         this.searchPriceLimit = 0
+        this.flightData = []
     }
 
     // Fetch the list on first mount
@@ -41,15 +42,38 @@ export default class Home extends React.Component{
     //     })
     // }
 
+    // // Retrieves the location data from the Express app
+    // getFlightGeometries = (city) => {
+    //     axios.get('/api/getLocation', {params: {
+    //         location: city
+    //       }})
+        // .then(res => {
+        //     this.setState({
+        //         showEarth: true,
+        //         origin: {
+        //             name: this.searchValue,
+        //             geometry: res.data.geometry
+        //         }
+        //     })
+        // })
+    // }
+
     // Retrieves the location data from the Express app
-    getFlightData = () => {
-        axios.get('/api/destinations', {params: {
-            location: this.searchValue,
-            priceLimit: this.searchPriceLimit
-            }})
-        .then(res => {
-            console.log(res)
+    getFlightData = async () => {
+        let {data} = await axios.get('/api/destinations', {params: { location: this.searchValue, priceLimit: this.searchPriceLimit}})
+        for(const flight of data){
+            let {data} = await axios.get('/api/getLocation', {params: { location: flight.Destination}})
+            this.flightData.push({
+                name: flight.Destination, 
+                price: flight.Price,
+                geometry: data.geometry
+            })
+        }
+        console.log(this.flightData)
+        this.setState({
+            destinations: this.flightData
         })
+        console.log(this.state)
     }
 
 
