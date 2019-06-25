@@ -11,19 +11,30 @@ export default class Earth extends React.Component {
         this.renderer = new THREE.WebGLRenderer();
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
         this.radius = 2;
+
+        this.state = {
+            location: {
+                geometry:{
+                    lat: 0,
+                    lng: 0
+                },
+                name: ''
+            }
+        }
     }
 
-    createScene = () => {
-        let location = {
-            lat: 51.507222,
-            lon: -0.1275,
-            name: 'London'
-        }
+    createScene = (props) => {
+        // let location = {
+        //     lat: 51.507222,
+        //     lon: -0.1275,
+        //     name: 'London'
+        // }
+        console.log(this.props)
         this.rendererInit();
         this.renderSphere();
         this.camera.position.z = 5;
         this.animate();
-        this.addMarker(location);
+        this.addMarker(this.props.location.origin.geometry.lat, this.props.location.origin.geometry.lng);
         this.axis();
         this.scene.background = new THREE.Color( 'mistyrose' );
     }
@@ -51,18 +62,19 @@ export default class Earth extends React.Component {
         let surfaceOffset = 0.05;
         let points = this.sphereToCartesian(this.radius + surfaceOffset, lat, lon)
         let dotGeometry = new THREE.Geometry();
-        dotGeometry.vertices.push(new THREE.Vector3( points.x, points.z, points.y));
+        dotGeometry.vertices.push(new THREE.Vector3( points.x, points.y, points.z));
         let dotMaterial = new THREE.PointsMaterial( { size: 10, sizeAttenuation: false } );
         let dot = new THREE.Points( dotGeometry, dotMaterial );
         return dot;
     }
 
-    addMarker = (location) => {
-        let dot = this.createDotMarker(location.lat, location.lon)
+    addMarker = (lat, lng) => {
+        let dot = this.createDotMarker(lat, lng)
         this.scene.add( dot );
     }
 
     axis = () => {
+        // The X axis is red. The Y axis is green. The Z axis is blue.
         var axesHelper = new THREE.AxesHelper( 5 );
         this.scene.add( axesHelper );
     }
@@ -70,15 +82,15 @@ export default class Earth extends React.Component {
     sphereToCartesian = (radius, lat, lon) => {
         
         let latRad = this.degToRad(lat);
-        let lonRad = this.degToRad(lon);
+        let lonRad = this.degToRad(-lon);
 
+        return (
+            {
+                x: radius * Math.cos(latRad) * Math.cos(lonRad), 
+                y: radius * Math.sin(latRad), 
+                z: radius * Math.cos(latRad) * Math.sin(lonRad)
+            })
 
-        let x = radius*Math.cos(latRad)*Math.cos(lonRad)
-        let y = radius*Math.cos(latRad)*Math.sin(lonRad)
-        let z = radius*Math.sin(latRad)
-
-        console.log(`x: ${x}, y: ${y}, z: ${z}`)
-        return {x: x, y: y, z: z}
     }
 
     renderSphere = () => {
