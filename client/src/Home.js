@@ -9,19 +9,14 @@ export default class Home extends React.Component{
         super(props);
         this.state = {
             origin: {
-                geometry:{
-                    lat: 0,
-                    lng: 0
-                },
-                name: ''
-            },
+                geometry:{ lat: 0, lng: 0 }, name: ''},
             destinations: [
-                    { geometry:{lat: -37.814, lng: 144.96332}, name: 'melbourne'},
-                    { geometry:{lat: -36.848461, lng: 174.763336}, name: 'auckland'}
+                    { geometry:{lat: 0, lng: 0}, name: ''},
+                    { geometry:{lat: 0, lng: 0}, name: ''}
                 ]
             }
-        
         this.searchValue = ''
+        this.searchPriceLimit = 0
     }
 
     // Fetch the list on first mount
@@ -46,12 +41,19 @@ export default class Home extends React.Component{
     }
 
     handleSubmit = (event) => {
-        this.getOriginLocation()
+        if(this.searchValue && this.searchPriceLimit > 0){
+            this.getOriginLocation()
+        }
     }
 
     handleOriginChange = (event) => {
         let city = event.target.value
         this.searchValue = city
+    }
+
+    handlePriceLimitChange = (event) => {
+        let price = event.target.value
+        this.searchPriceLimit = price
     }
 
     render() {
@@ -64,6 +66,10 @@ export default class Home extends React.Component{
             <input onChange={this.handleOriginChange}
                 type="text" 
                 placeholder="Enter Origin"></input>
+            <input onChange={this.handlePriceLimitChange}
+                type="number" 
+                min="10"
+                placeholder="Enter Price Limit"></input>
             <button onClick={this.handleSubmit}>Submit</button>
             <Earth origin={origin} destinations={destinations}></Earth>
           </section>

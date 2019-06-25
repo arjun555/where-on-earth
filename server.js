@@ -39,3 +39,28 @@ app.get('/api/getPlacesID', (req,res) => {
         .then((data) => {res.json(data)})
 });
 
+
+
+
+
+//// Plan of attack
+// user inputs the origin city
+//  ||
+//  ||
+// pass the origin city name string to getPlacesID
+//  ||
+//  ||
+// return the skyscanner places ID
+//  ||
+//  ||
+// use this ID to then check for flight data, with destination anywhere
+//  ||
+//  ||
+// sort through the data until you get to a price limit
+//  ||
+//  ||
+// use the response 'PlaceName' to get the location geometry data
+//  ||
+//  ||
+// plot onto sphere
+
