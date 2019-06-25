@@ -34,8 +34,8 @@ app.get('/api/getFlight', (req,res) => {
 
 // An api endpoint that returns a short list of items
 app.get('/api/getPlacesID', (req,res) => {
-    // let city = req.query.location.name
-    getPlacesID('london')
+    // let city = req.query.location
+    getPlacesID('auckland')
         .then((data) => {res.json(data)})
 });
 
@@ -51,8 +51,9 @@ app.get('/api/destinations', (req, res) => {
             getFlightData(data.PlaceId, 'anywhere')
             .then((flightData) => {
                 console.log(flightData)
-                // Return Flight Data that is within the price limits
-                res.json(getQuotesWithinLimit(flightData.Quotes, priceLimit))
+                // Get array of Flight Data that is within the price limits
+                getQuotesWithinLimit(flightData.Quotes, priceLimit)
+                res.json(processQuotes(getQuotesWithinLimit(flightData.Quotes, priceLimit), flightData.Places))
             })
         })
 })
@@ -68,6 +69,21 @@ function getQuotesWithinLimit(quoteData, priceLimit){
     console.log(`Here are the Quotes that are less than ${priceLimit}`)
     console.log(quotesWithinLimit)
     return quotesWithinLimit;
+}
+
+function processQuotes(quotes, placeIds){
+    let arr = []
+    quotes.forEach((quote) => {
+        let destinationID = quote.OutboundLeg.DestinationId
+        let minPrice = quote.MinPrice
+        for(let i = 0; i < placeIds.length; i++){
+            if(placeIds[i].PlaceId == destinationID)
+            {
+                arr.push({Destination: placeIds[i].Name, Price: minPrice})
+            }
+        }
+    })
+    return arr
 }
 
 

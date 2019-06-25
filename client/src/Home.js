@@ -41,16 +41,16 @@ export default class Home extends React.Component{
     //     })
     // }
 
-        // Retrieves the location data from the Express app
-        getFlightData = () => {
-            axios.get('/api/destinations', {params: {
-                location: this.searchValue,
-                priceLimit: this.searchPriceLimit
-              }})
-            .then(res => {
-                console.log(res)
-            })
-        }
+    // Retrieves the location data from the Express app
+    getFlightData = () => {
+        axios.get('/api/destinations', {params: {
+            location: this.searchValue,
+            priceLimit: this.searchPriceLimit
+            }})
+        .then(res => {
+            console.log(res)
+        })
+    }
 
 
 
