@@ -1,5 +1,6 @@
 import React from 'react'
 import Earth from './Earth'
+import './Home.css';
 
 const axios = require('axios')
 
@@ -11,14 +12,12 @@ export default class Home extends React.Component{
         this.state = {
             origin: {
                 geometry:{ lat: 0, lng: 0 }, name: ''},
-            destinations: [
-                    { geometry:{lat: 0, lng: 0}, name: '', price: 0},
-                    { geometry:{lat: 0, lng: 0}, name: '', price: 0}
-                ]
+            destinations: []
             }
         this.searchValue = ''
         this.searchPriceLimit = 0
         this.flightData = []
+        this.loadingFlightData = false;
     }
 
     // Fetch the list on first mount
@@ -27,40 +26,10 @@ export default class Home extends React.Component{
     }
 
     // Retrieves the location data from the Express app
-    // getOriginLocation = () => {
-    //     axios.get('/api/getLocation', {params: {
-    //         location: this.searchValue
-    //       }})
-    //     .then(res => {
-    //         this.setState({
-    //             showEarth: true,
-    //             origin: {
-    //                 name: this.searchValue,
-    //                 geometry: res.data.geometry
-    //             }
-    //         })
-    //     })
-    // }
-
-    // // Retrieves the location data from the Express app
-    // getFlightGeometries = (city) => {
-    //     axios.get('/api/getLocation', {params: {
-    //         location: city
-    //       }})
-        // .then(res => {
-        //     this.setState({
-        //         showEarth: true,
-        //         origin: {
-        //             name: this.searchValue,
-        //             geometry: res.data.geometry
-        //         }
-        //     })
-        // })
-    // }
-
-    // Retrieves the location data from the Express app
     getFlightData = async () => {
+        this.loadingFlightData = true;
         let {data} = await axios.get('/api/destinations', {params: { location: this.searchValue, priceLimit: this.searchPriceLimit}})
+        this.flightData = []
         for(const flight of data){
             let {data} = await axios.get('/api/getLocation', {params: { location: flight.Destination}})
             this.flightData.push({
@@ -69,11 +38,10 @@ export default class Home extends React.Component{
                 geometry: data.geometry
             })
         }
-        console.log(this.flightData)
         this.setState({
             destinations: this.flightData
         })
-        console.log(this.state)
+        this.loadingFlightData = false;
     }
 
 
@@ -101,15 +69,28 @@ export default class Home extends React.Component{
 
         return (
           <section>
-            <input onChange={this.handleOriginChange}
+            <div className="container">
+            <label>Where are you travelling from?</label>
+            <input className="input-origin"
+                onChange={this.handleOriginChange}
                 type="text" 
                 placeholder="Enter Origin"></input>
-            <input onChange={this.handlePriceLimitChange}
+            <label>How much do you want to spend one-way?</label>
+            <span>$</span><input className="input-price"
+                onChange={this.handlePriceLimitChange}
                 type="number" 
                 min="10"
-                placeholder="Enter Price Limit"></input>
-            <button onClick={this.handleSubmit}>Submit</button>
-            <Earth origin={origin} destinations={destinations}></Earth>
+                placeholder="(AUD)"></input>
+            <button onClick={this.handleSubmit}>Search</button>
+            </div>
+            <div>
+                <Earth origin={origin} destinations={destinations}></Earth>
+            </div>
+            {/* <div>
+                    {this.state.destinations.map((city, index) => 
+                        <p key={city.name}>{city.name}</p>
+                    )}
+            </div> */}
           </section>
         );
     }

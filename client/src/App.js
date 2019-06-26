@@ -1,5 +1,4 @@
 import React from 'react';
-import Earth from './Earth'
 import Home from './Home'
 import { Switch, Route, BrowserRouter, Link } from 'react-router-dom'
 

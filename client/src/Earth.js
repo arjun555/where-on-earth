@@ -24,23 +24,22 @@ export default class Earth extends React.Component {
     }
 
     createScene = (props) => {
-        // console.log(this.props)
-        this.rendererInit();
+        let element = this.rendererInit();
         this.renderSphere();
         this.camera.position.z = 5;
         this.animate();
+        // Add Markers onto Earth Sphere
         if(this.props.origin.name){
             this.addMarker(this.props.origin.geometry.lat, this.props.origin.geometry.lng);
         }
-
         if(this.props.destinations.length > 0){
             this.props.destinations.forEach((city) => {
                 this.addMarker(city.geometry.lat, city.geometry.lng);
             })
         }
-
-        this.axis();
-        this.scene.background = new THREE.Color( 'mistyrose' );
+        this.scene.background = new THREE.Color( 'white' );
+        // console.log(element)
+        // return element
     }
 
     animate = () => {
@@ -66,7 +65,7 @@ export default class Earth extends React.Component {
         let points = this.sphereToCartesian(this.radius + surfaceOffset, lat, lon)
         let dotGeometry = new THREE.Geometry();
         dotGeometry.vertices.push(new THREE.Vector3( points.x, points.y, points.z));
-        let dotMaterial = new THREE.PointsMaterial( { size: 10, sizeAttenuation: false } );
+        let dotMaterial = new THREE.PointsMaterial( {color: 0xE06C9F, size: 10, sizeAttenuation: false } );
         let dot = new THREE.Points( dotGeometry, dotMaterial );
         return dot;
     }
@@ -97,7 +96,7 @@ export default class Earth extends React.Component {
     }
 
     renderSphere = () => {
-        let geometry = new THREE.SphereGeometry( this.radius, 200, 200 );
+        let geometry = new THREE.SphereGeometry( this.radius, 300, 300 );
         let texture = new THREE.TextureLoader().load("https://s3-eu-west-2.amazonaws.com/bckld/lab/textures/earth_latlon.jpg")
         let material = new THREE.MeshBasicMaterial({wireframe: false, map: texture});
         let sphere = new THREE.Mesh( geometry, material );
@@ -105,8 +104,9 @@ export default class Earth extends React.Component {
     }
 
     rendererInit(){
-        this.renderer.setSize( window.innerWidth, window.innerHeight );
+        this.renderer.setSize( window.innerWidth*0.8 , window.innerHeight*0.8);
         document.body.appendChild( this.renderer.domElement );
+        return (this.renderer.domElement)
     }
 
     degToRad(degrees){
