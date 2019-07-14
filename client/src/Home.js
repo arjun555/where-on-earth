@@ -1,6 +1,9 @@
 import React from 'react'
 import Earth from './Earth'
 import './Home.css';
+// First way to import
+import Loading from 'react-loading-bar'
+import 'react-loading-bar/dist/index.css'
 
 const axios = require('axios')
 
@@ -10,6 +13,7 @@ export default class Home extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            loading: false,
             origin: {
                 geometry:{ lat: 0, lng: 0 }, name: ''},
             destinations: []
@@ -28,6 +32,7 @@ export default class Home extends React.Component{
     // Retrieves the location data from the Express app
     getFlightData = async () => {
         this.loadingFlightData = true;
+        this.setState({loading: true})
         let {data} = await axios.get('/api/destinations', {params: { location: this.searchValue, priceLimit: this.searchPriceLimit}})
         this.flightData = []
         for(const flight of data){
@@ -42,6 +47,7 @@ export default class Home extends React.Component{
             destinations: this.flightData
         })
         this.loadingFlightData = false;
+        this.setState({loading: false})
     }
 
 
@@ -81,7 +87,9 @@ export default class Home extends React.Component{
                 type="number" 
                 min="10"
                 placeholder="(AUD)"></input>
-            <button onClick={this.handleSubmit}>Search</button>
+            <button onClick={this.handleSubmit}>
+                {this.state.loading ? 'searching' : 'search'}
+                </button>
             </div>
             <div>
                 <Earth origin={origin} destinations={destinations}></Earth>

@@ -97,7 +97,8 @@ export default class Earth extends React.Component {
 
     renderSphere = () => {
         let geometry = new THREE.SphereGeometry( this.radius, 300, 300 );
-        let texture = new THREE.TextureLoader().load("https://s3-eu-west-2.amazonaws.com/bckld/lab/textures/earth_latlon.jpg")
+        // let texture = new THREE.TextureLoader().load("https://s3-eu-west-2.amazonaws.com/bckld/lab/textures/earth_latlon.jpg")
+        let texture = new THREE.TextureLoader().load('earth-map.jpg')
         let material = new THREE.MeshBasicMaterial({wireframe: false, map: texture});
         let sphere = new THREE.Mesh( geometry, material );
         this.scene.add( sphere );

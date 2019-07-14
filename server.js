@@ -10,8 +10,9 @@ app.listen(port, () =>{
     console.log(`listening on ${port}`)
 })
 
-// Serve the static files from the React app
+// Serve local files from the React app
 app.use(express.static('client/build'));
+app.use(express.static('client/public'));
 
 // An api endpoint that returns a short list of items
 app.get('/api/getLocation', (req,res) => {
