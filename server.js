@@ -11,8 +11,11 @@ app.listen(port, () =>{
 })
 
 // Serve local files from the React app
-app.use(express.static('client/build'));
-app.use(express.static('client/public'));
+if (process.env.PRODUCTION) {
+    app.use(express.static('client/build'));
+}else{
+    app.use(express.static('client/public'));
+}
 
 // An api endpoint that returns a short list of items
 app.get('/api/getLocation', (req,res) => {
