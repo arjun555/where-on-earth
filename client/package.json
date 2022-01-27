@@ -11,7 +11,7 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "react-spinners": "^0.5.4",
-    "three": "^0.105.2",
+    "three": "^0.137.0",
     "three-orbitcontrols": "^2.102.1"
   },
   "scripts": {
